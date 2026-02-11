@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>❤️ Bizim Aşkımız ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0;font-family:'Segoe UI',sans-serif;background:radial-gradient(circle at top,#ff758c,#ff7eb3,#fad0c4);color:white;overflow-x:hidden;text-align:center;}
+header{padding:40px;background:rgba(0,0,0,0.3)}
+h1{font-size:2.5rem}
+.container{max-width:1000px;margin:auto;padding:20px}
+.card{background:rgba(255,255,255,0.15);border-radius:20px;padding:20px;margin:20px 0;box-shadow:0 10px 25px rgba(0,0,0,0.4)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+.gallery img{width:100%;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.5)}
+textarea,input{width:100%;border-radius:10px;border:none;padding:10px;font-size:1rem}
+button{padding:10px 25px;border:none;border-radius:25px;background:#ff2f6d;color:white;font-size:1rem;cursor:pointer;margin-top:10px}
+.msg{background:rgba(0,0,0,0.4);padding:10px;border-radius:10px;margin-top:8px;text-align:left}
+#hearts span{position:fixed;font-size:20px;animation:float 6s linear infinite}
+@keyframes float{0%{transform:translateY(100vh);opacity:1}100%{transform:translateY(-10vh);opacity:0}}
+#musicBtn{position:fixed;bottom:20px;right:20px;background:#ff2f6d;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:25px}
+#countdown{font-size:1.5rem;margin-top:10px}
+#qr img{width:200px;border-radius:15px;margin-top:10px}
+</style>
+</head>
+<body>
+<div id="hearts"></div>
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+<div id="musicBtn" onclick="toggleMusic()">🎵</div>
+<header>
+<h1>❤️ Bizim Aşk Hikayemiz ❤️</h1>
+<div id="countdown"></div>
+</header>
+
+<div class="container">
+<div class="card">
+<h2>📸 Anılarımız</h2>
+<div class="gallery">
+    <img src="foto1.jpg">
+    <img src="foto2.jpg">
+    <img src="foto3.jpg">
+    <img src="foto4.jpg">
+    <img src="foto5.jpg">
+    <img src="foto6.jpg">
+    <img src="foto7.jpg">
+    <img src="foto8.jpg">
+    
+<!-- FOTOĞRAF EKLE -->
+<!-- <img src="foto1.jpg"> -->
+</div>
+</div>
+
+<div class="card">
+<h2>💌 Mesaj Bırak</h2>
+<input id="nameInput" placeholder="Adın">
+<textarea id="msgInput" rows="3" placeholder="Mesajın..."></textarea>
+<button onclick="addMessage()">Kaydet</button>
+<div id="messages"></div>
+</div>
+
+<div class="card">
+<h2>📖 Bizim Hikayemiz</h2>
+<p>Tanıştığımız gün... İlk mesaj... İlk buluşma... İlk kavga... İlk barışma... ❤️</p>
+</div>
+
+<div class="card" id="qr">
+<h2>🔗 QR Kod</h2>
+<p>Site linkini buradan okut</p>
+<img id="qrImg">
+</div>
+</div>
+
+<script>
+const hearts=document.getElementById('hearts');
+setInterval(()=>{const s=document.createElement('span');s.innerText='❤';s.style.left=Math.random()*100+'vw';s.style.animationDuration=(Math.random()*3+3)+'s';hearts.appendChild(s);setTimeout(()=>s.remove(),6000)},300);
+
+function toggleMusic(){
+const m=document.getElementById('music');
+m.paused?m.play():m.pause();
+}
+
+function addMessage(){
+const n=nameInput.value.trim();
+const t=msgInput.value.trim();
+if(!n||!t)return;
+const m=document.createElement('div');
+m.className='msg';
+m.innerHTML='<b>'+n+':</b> '+t;
+messages.appendChild(m);
+localStorage.setItem('msgs',messages.innerHTML);
+nameInput.value='';
+msgInput.value='';
+}
+
+messages.innerHTML=localStorage.getItem('msgs')||'';
+
+const target=new Date('2026-02-14T00:00:00');
+setInterval(()=>{
+const now=new Date();
+const diff=target-now;
+if(diff>0){
+const d=Math.floor(diff/86400000);
+const h=Math.floor(diff/3600000)%24;
+const m=Math.floor(diff/60000)%60;
+countdown.innerText=`14 Şubat'a: ${d} gün ${h} saat ${m} dk`;
+}else{
+countdown.innerText='❤️ Bugün 14 Şubat ❤️';
+}
+},1000);
+
+const siteUrl=window.location.href;
+qrImg.src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(siteUrl);
+</script>
+</body>
+</html>
