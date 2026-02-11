@@ -24,10 +24,16 @@ button{padding:10px 25px;border:none;border-radius:25px;background:#ff2f6d;color
 </head>
 <body>
 <div id="hearts"></div>
-<audio id="music" loop>
-<source src="music.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop>
+  <source src="muzik.mp3" type="audio/mpeg">
 </audio>
-<div id="musicBtn" onclick="toggleMusic()">🎵</div>
+
+<script>
+  document.addEventListener("click", function () {
+    const music = document.getElementById("bgMusic");
+    music.play();
+  }, { once: true });
+</script>
 <header>
 <h1>❤️ Bizim Aşk Hikayemiz ❤️</h1>
 <div id="countdown"></div>
